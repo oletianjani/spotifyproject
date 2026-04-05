@@ -1,0 +1,9 @@
+{
+	"name": "anjuspotify",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "66fa4226-ab72-4363-a969-3342e1c22f56",
+		"tenantId": "f443f10a-f7a2-4c64-8033-e46f2547fc7a"
+	}
+}

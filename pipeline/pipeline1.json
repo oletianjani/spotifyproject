@@ -308,6 +308,35 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "calling logic app",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "looping_tables",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": "https://prod-24.northcentralus.logic.azure.com:443/workflows/bd9e9fb5a6b444af8fad699b39486871/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=BuHsxCzRog3GhMXFN6OdUFU6AB9eF28Ugu5jcxqz_mE",
+					"body": {
+						"value": "pipeline_name:@{pipeline().Pipeline}\nrun_id:@{pipeline().RunId}",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"parameters": {

@@ -81,7 +81,7 @@
 								"source": {
 									"type": "AzureSqlSource",
 									"sqlReaderQuery": {
-										"value": "select * from @{item().table} where @{item().cdc_col}>'@{activity('finding_updated_date').output.value[0].cdc}'",
+										"value": "select * from @{item().table} where @{item().cdc_col}>'@{if(empty(pipeline().parameters.backdated_date),activity('finding_updated_date').output.value[0].cdc,pipeline().parameters.backdated_date)}'",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
@@ -129,7 +129,7 @@
 											"type": "Expression"
 										},
 										"file_name": {
-											"value": "@{item().table}_@{variables('current_timestamp')}.parquet",
+											"value": "concat(@{item().table},'_',@{variables('current_timestamp')},'.parquet')",
 											"type": "Expression"
 										}
 									}
@@ -148,7 +148,7 @@
 							"typeProperties": {
 								"variableName": "current_timestamp",
 								"value": {
-									"value": "utc.now()",
+									"value": "@utcNow()",
 									"type": "Expression"
 								}
 							}
@@ -167,7 +167,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greater(activity('Script1').output.val,0)",
+									"value": "@greater(activity('Script1').output.resultSets[0].rows[0].val,0)\n\n",
 									"type": "Expression"
 								},
 								"ifFalseActivities": [
@@ -345,6 +345,9 @@
 						"from_date": ""
 					}
 				]
+			},
+			"backdated_date": {
+				"type": "string"
 			}
 		},
 		"variables": {

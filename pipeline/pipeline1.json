@@ -12,6 +12,7 @@
 						"value": "@pipeline().parameters.tables_list",
 						"type": "Expression"
 					},
+					"isSequential": false,
 					"activities": [
 						{
 							"name": "finding_updated_date",
@@ -339,6 +340,7 @@
 				}
 			}
 		],
+		"concurrency": 3,
 		"parameters": {
 			"tables_list": {
 				"type": "array",
